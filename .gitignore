@@ -1,0 +1,29 @@
+# Python caches
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Local virtual environments
+.venv/
+venv/
+env/
+
+# ROS / colcon build products
+build/
+install/
+log/
+.ros/
+
+# Runtime outputs and generated plots
+output/
+*.log
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local Codex/agent metadata
+.agents/
+.codex/

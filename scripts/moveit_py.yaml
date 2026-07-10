@@ -1,0 +1,30 @@
+/**:
+  ros__parameters:
+    planning_scene_monitor_options:
+      name: planning_scene_monitor
+      robot_description: robot_description
+      joint_state_topic: /joint_states
+      attached_collision_object_topic: /attached_collision_object
+      publish_planning_scene_topic: /planning_scene
+      monitored_planning_scene_topic: /monitored_planning_scene
+      wait_for_initial_state_timeout: 10.0
+
+    planning_pipelines:
+      pipeline_names: ["ompl"]
+
+    ompl:
+      planning_plugin: ompl_interface/OMPLPlanner
+      request_adapters:
+        - default_planning_request_adapters/ResolveConstraintFrames
+        - default_planning_request_adapters/ValidateWorkspaceBounds
+        - default_planning_request_adapters/CheckStartStateBounds
+        - default_planning_request_adapters/CheckStartStateCollision
+      start_state_max_bounds_error: 0.1
+
+    plan_request_params:
+      planning_attempts: 1
+      planning_pipeline: ompl
+      planner_id: RRTConnectkConfigDefault
+      max_velocity_scaling_factor: 0.1
+      max_acceleration_scaling_factor: 0.1
+      planning_time: 5.0
