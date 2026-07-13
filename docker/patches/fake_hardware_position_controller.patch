@@ -1,0 +1,67 @@
+diff --git a/franka_fr3_moveit_config/config/fr3_fake_ros_controllers.yaml b/franka_fr3_moveit_config/config/fr3_fake_ros_controllers.yaml
+new file mode 100644
+index 0000000..ca0fbc8
+--- /dev/null
++++ b/franka_fr3_moveit_config/config/fr3_fake_ros_controllers.yaml
+@@ -0,0 +1,33 @@
++/**:
++  controller_manager:
++    ros__parameters:
++      update_rate: 1000  # Hz
++      thread_priority: 98
++      overruns:
++        manage: false
++        print_warnings: false
++
++      fr3_arm_controller:
++        type: joint_trajectory_controller/JointTrajectoryController
++
++      joint_state_broadcaster:
++        type: joint_state_broadcaster/JointStateBroadcaster
++
++/**:
++  fr3_arm_controller:
++    ros__parameters:
++      # fake_components mirrors position commands into joint state. It does
++      # not simulate the effort dynamics used by the real FR3 controller.
++      command_interfaces:
++        - position
++      state_interfaces:
++        - position
++        - velocity
++      joints:
++        - fr3_joint1
++        - fr3_joint2
++        - fr3_joint3
++        - fr3_joint4
++        - fr3_joint5
++        - fr3_joint6
++        - fr3_joint7
+diff --git a/franka_fr3_moveit_config/launch/moveit.launch.py b/franka_fr3_moveit_config/launch/moveit.launch.py
+--- a/franka_fr3_moveit_config/launch/moveit.launch.py
++++ b/franka_fr3_moveit_config/launch/moveit.launch.py
+@@ -30,6 +30,7 @@
+ from launch.substitutions import (
+     Command,
+     FindExecutable,
++    IfElseSubstitution,
+     LaunchConfiguration,
+     PathJoinSubstitution
+ )
+@@ -227,5 +227,15 @@
+-    ros2_controllers_path = os.path.join(
++    real_ros2_controllers_path = os.path.join(
+         get_package_share_directory('franka_fr3_moveit_config'),
+         'config',
+         'fr3_ros_controllers.yaml',
+     )
++    fake_ros2_controllers_path = os.path.join(
++        get_package_share_directory('franka_fr3_moveit_config'),
++        'config',
++        'fr3_fake_ros_controllers.yaml',
++    )
++    ros2_controllers_path = IfElseSubstitution(
++        use_fake_hardware,
++        fake_ros2_controllers_path,
++        real_ros2_controllers_path,
++    )

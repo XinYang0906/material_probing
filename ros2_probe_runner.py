@@ -174,8 +174,18 @@ def add_probe_arguments(
     parser.add_argument("--pipeline-id", default="move_group")
     parser.add_argument("--planner-id", default="RRTConnectkConfigDefault")
     parser.add_argument("--planning-time", type=positive_float, default=5.0)
-    parser.add_argument("--position-tolerance", type=positive_float, default=0.01)
-    parser.add_argument("--orientation-tolerance", type=positive_float, default=0.2)
+    parser.add_argument(
+        "--position-tolerance",
+        type=positive_float,
+        default=0.001,
+        help="TCP goal tolerance in metres; 1 mm preserves 5 mm probe stages.",
+    )
+    parser.add_argument(
+        "--orientation-tolerance",
+        type=positive_float,
+        default=0.035,
+        help="TCP orientation tolerance in radians; about 2 degrees by default.",
+    )
     parser.add_argument(
         "--max-velocity-scaling-factor",
         type=positive_float,
