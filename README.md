@@ -30,10 +30,17 @@ probing/
   ros2_probe_runner.py
 ```
 
-`robot_ros2_control/` contains the ROS2 workspace helper files:
+`robot_ros2_control/` contains the complete ROS2 source workspace together
+with its Docker setup. Third-party source trees are vendored so a normal GitHub
+clone includes the exact local versions and patches used by this project:
 
 ```text
 robot_ros2_control/
+  franka_description/
+  franka_fr3_moveit_config/
+  libfranka/
+  ros2_control/
+  ...                    # Remaining ROS2 packages and model assets
   dependency.repos      # ROS2/Franka source dependencies
   Dockerfile
   docker-compose.yml
@@ -76,7 +83,9 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
-Inside the container:
+Inside the container, the checked-in source directories are already mounted at
+`/ros2_ws/src`. The `vcs import` command is optional and uses `--skip-existing`,
+so it only restores a dependency if its directory is missing:
 
 ```bash
 cd /ros2_ws
