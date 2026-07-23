@@ -1,0 +1,12 @@
+.env
+.idea
+.vscode
+.devcontainer/devcontainer-lock.json
+*.pyc
+cmake-build-*/
+build/
+install/
+log/
+activity.log
+task.md
+test-status.md
